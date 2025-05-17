@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>家計簿メインページ</title>
+</head>
+<body>
+    <h1>家計簿アプリ メインページ</h1>
+
+    <ul>
+        <li><a href="{{ url_for('add') }}">支出/収入の追加</a></li>
+        <li><a href="{{ url_for('view') }}">一覧表示</a></li>
+        <li><a href="{{ url_for('monthly') }}">月別集計</a></li>
+    </ul>
+</body>
+</html>

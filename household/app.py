@@ -12,8 +12,8 @@ def get_db_connection():
     )
 
 @app.route('/')
-def index():
-    return redirect('/add')
+def main():
+    return render_template('main.html')
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
@@ -36,6 +36,16 @@ def add():
         return redirect('/add')
     
     return render_template('add.html')
+
+@app.route('/delete/<int:item_id>', methods=['POST'])
+def delete(item_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM kakeibo WHERE id = %s", (item_id,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return redirect('/view')
 
 @app.route('/view')
 def view():
@@ -80,7 +90,7 @@ from collections import defaultdict
 import json
 
 @app.route('/monthly')
-def monthly_summary():
+def monthly():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
