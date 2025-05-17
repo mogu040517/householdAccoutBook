@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>月別収支集計</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>月別収支サマリー</h1>
+    <table border="1">
+        <tr>
+            <th>年月</th>
+            <th>収入合計</th>
+            <th>支出合計</th>
+            <th>必要経費合計</th>
+            <th>実質収入</th>
+        </tr>
+        {% for ym, data in monthly_data %}
+        <tr>
+            <td>{{ ym }}</td>
+            <td>{{ data.income }}</td>
+            <td>{{ data.expense }}</td>
+            <td>{{ data.necessary }}</td>
+            <td>{{ data.net_income }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h1>月別支出グラフ</h1>
+    <canvas id="expenseChart" width="800" height="400"></canvas>
+
+    <script>
+        const labels = {{ labels | tojson }};
+        const expenses = {{ expenses | tojson }};
+
+        const ctx = document.getElementById('expenseChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '支出合計',
+                    data: expenses,
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '月ごとの支出合計'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString() + ' 円';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

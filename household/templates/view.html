@@ -1,20 +1,55 @@
 <!DOCTYPE html>
 <html>
-<head><meta charset="UTF-8"><title>家計簿一覧</title></head>
+<head>
+    <title>収入と支出の一覧</title>
+    <meta charset="utf-8">
+</head>
 <body>
-<h2>家計簿一覧</h2>
-<table border="1">
-<tr><th>ID</th><th>日付</th><th>カテゴリ</th><th>金額</th><th>種類</th><th>メモ</th></tr>
-{% for record in records %}
-<tr>
-    <td>{{ record.id }}</td>
-    <td>{{ record.date }}</td>
-    <td>{{ record.category }}</td>
-    <td>{{ record.amount }}</td>
-    <td>{{ record.type }}</td>
-    <td>{{ record.memo }}</td>
-</tr>
-{% endfor %}
-</table>
+    <h1>月別収支グラフ</h1>
+    <canvas id="monthlyChart" width="900" height="400"></canvas>
+    <h2>収支合計</h2>
+    <ul>
+        <li>収入合計：{{ total_income }} 円</li>
+        <li>必要経費合計（交通費）：{{ total_necessary }} 円</li>
+        <li>実質収入（収入 - 必要経費）：{{ net_income }} 円</li>
+        <li>支出合計（生活費全体）：{{ total_expense }} 円</li>
+        <li>差額（収入 - 支出）：{{ balance }} 円</li>
+    </ul>
+
+    <h2>収入一覧</h2>
+    <table border="1">
+        <tr>
+            <th>日付</th>
+            <th>カテゴリ</th>
+            <th>金額</th>
+            <th>メモ</th>
+        </tr>
+        {% for item in incomes %}
+        <tr>
+            <td>{{ item.date }}</td>
+            <td>{{ item.category }}</td>
+            <td>{{ item.amount }}</td>
+            <td>{{ item.memo }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>支出一覧</h2>
+    <table border="1">
+        <tr>
+            <th>日付</th>
+            <th>カテゴリ</th>
+            <th>金額</th>
+            <th>メモ</th>
+        </tr>
+        {% for item in expenses %}
+        <tr>
+            <td>{{ item.date }}</td>
+            <td>{{ item.category }}</td>
+            <td>{{ item.amount }}</td>
+            <td>{{ item.memo }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>
